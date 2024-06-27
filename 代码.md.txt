@@ -1,0 +1,2690 @@
+﻿代码：
+
+```java
+public class RemoveDuplicates {
+    
+     public static void main(String[] args) {
+        RemoveDuplicates remover = new RemoveDuplicates();
+        int[] nums = {1, 1, 2};
+        int length = remover.removeDuplicates(nums);
+        System.out.println("length = " + length);
+    }
+
+    public int removeDuplicates(int[] nums) {
+        // 特殊情况：空数组直接返回长度0
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        int uniqueIndex = 0;  // 指针，指向当前不重复元素的位置
+
+        // 遍历数组
+        for (int i = 1; i < nums.length; i++) {
+            // 如果当前元素不等于前一个元素，则说明是一个新的不重复元素
+            if (nums[i] != nums[uniqueIndex]) {
+                uniqueIndex++;
+                // 将新的不重复元素放到数组中
+                nums[uniqueIndex] = nums[i];
+            }
+        }
+
+        // 返回新数组的长度（不重复元素的个数）
+        return uniqueIndex + 1;
+    }
+
+   
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+代码实现：
+
+```java
+public class MaxProfit {
+
+    public int maxProfit(int[] prices) {
+        int maxProfit = 0;
+
+        // 遍历股票价格数组
+        for (int i = 1; i < prices.length; i++) {
+            // 如果当前股票价格比前一天高，就进行交易
+            if (prices[i] > prices[i - 1]) {
+                // 计算利润并累加到总利润中
+                maxProfit += prices[i] - prices[i - 1];
+            }
+        }
+
+        // 返回总利润
+        return maxProfit;
+    }
+
+    public static void main(String[] args) {
+        MaxProfit profitCalculator = new MaxProfit();
+        int[] prices = {7, 1, 5, 3, 6, 4};
+        int maxProfit = profitCalculator.maxProfit(prices);
+        System.out.println("最大利润：" + maxProfit);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+代码实现：
+
+```java
+public class RotateArray {
+
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        int[] temp = new int[n];
+
+        // 将原数组的元素逐个放到新的位置上
+        for (int i = 0; i < n; i++) {
+            temp[(i + k) % n] = nums[i];
+        }
+
+        // 将新数组的元素复制回原数组
+        System.arraycopy(temp, 0, nums, 0, n);
+    }
+
+    public static void main(String[] args) {
+        RotateArray rotator = new RotateArray();
+        int[] nums = {1, 2, 3, 4, 5, 6, 7};
+        int k = 3;
+        rotator.rotate(nums, k);
+
+        // 输出旋转后的数组
+        System.out.print("[");
+        for (int i = 0; i < nums.length; i++) {
+            System.out.print(nums[i]);
+            if (i < nums.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**优化空间的代码实现：**
+
+```java
+public void rotate(int[] nums, int k) {
+    int n = nums.length;
+    k %= n;
+
+    // 全部翻转
+    reverse(nums, 0, n - 1);
+    // 前 k 个元素翻转
+    reverse(nums, 0, k - 1);
+    // 剩余元素翻转
+    reverse(nums, k, n - 1);
+}
+
+private void reverse(int[] nums, int start, int end) {
+    while (start < end) {
+        int temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
+        start++;
+        end--;
+    }
+}
+```
+
+这种方法的时间复杂度同样是 O(n)，但空间复杂度为 O(1)。 
+
+
+
+
+
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class RemoveElement {
+
+    public int removeElement(int[] nums, int val) {
+        int newLength = 0;  // 新数组的长度
+
+        // 遍历数组，使用双指针进行元素移除
+        for (int i = 0; i < nums.length; i++) {
+            // 当前元素不等于 val，将其移到新数组的位置
+            if (nums[i] != val) {
+                nums[newLength] = nums[i];
+                newLength++;
+            }
+        }
+
+        // 返回新数组的长度
+        return newLength;
+    }
+
+    public static void main(String[] args) {
+        RemoveElement remover = new RemoveElement();
+        int[] nums = {3, 2, 2, 3};
+        int val = 3;
+        int newLength = remover.removeElement(nums, val);
+        System.out.println("新数组的长度：" + newLength);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class MoveZeroes {
+
+    public void moveZeroes(int[] nums) {
+        int nonZeroIndex = 0;  // 指针，指向最后一个非零元素的位置
+
+        // 遍历数组
+        for (int i = 0; i < nums.length; i++) {
+            // 将非零元素移到指针位置，并更新指针位置
+            if (nums[i] != 0) {
+                nums[nonZeroIndex] = nums[i];
+                nonZeroIndex++;
+            }
+        }
+
+        // 将剩余位置填充零
+        for (int i = nonZeroIndex; i < nums.length; i++) {
+            nums[i] = 0;
+        }
+    }
+
+    public static void main(String[] args) {
+        MoveZeroes mover = new MoveZeroes();
+        int[] nums = {0, 1, 0, 3, 12};
+        mover.moveZeroes(nums);
+
+        // 输出移动后的数组
+        System.out.print("[");
+        for (int i = 0; i < nums.length; i++) {
+            System.out.print(nums[i]);
+            if (i < nums.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class TwoSumII {
+
+    public int[] twoSum(int[] numbers, int target) {
+        int left = 0;           // 左指针，指向数组的起始位置
+        int right = numbers.length - 1;  // 右指针，指向数组的末尾
+
+        // 使用双指针法找到两个数使得它们的和等于目标数
+        while (left < right) {
+            int sum = numbers[left] + numbers[right];
+
+            // 如果和等于目标数，返回找到的两个数的下标（加 1，因为题目要求的是从 1 开始的下标）
+            if (sum == target) {
+                return new int[]{left + 1, right + 1};
+            } else if (sum < target) {
+                // 如果和小于目标数，移动左指针向右
+                left++;
+            } else {
+                // 如果和大于目标数，移动右指针向左
+                right--;
+            }
+        }
+
+        // 如果没有找到符合条件的两个数，返回空数组
+        return new int[]{};
+    }
+
+    public static void main(String[] args) {
+        TwoSumII twoSumFinder = new TwoSumII();
+        int[] numbers = {2, 7, 11, 15};
+        int target = 9;
+        int[] result = twoSumFinder.twoSum(numbers, target);
+
+        // 输出结果数组
+        System.out.print("[");
+        for (int i = 0; i < result.length; i++) {
+            System.out.print(result[i]);
+            if (i < result.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class PivotIndex {
+
+    public int pivotIndex(int[] nums) {
+        int totalSum = 0;  // 整个数组的和
+        int leftSum = 0;   // 左侧元素的和
+
+        // 计算整个数组的和
+        for (int num : nums) {
+            totalSum += num;
+        }
+
+        // 遍历数组，找到中心索引
+        for (int i = 0; i < nums.length; i++) {
+            // 检查左右两侧的和是否相等
+            if (leftSum == totalSum - leftSum - nums[i]) {
+                return i;
+            }
+            // 更新左侧元素的和
+            leftSum += nums[i];
+        }
+
+        // 如果未找到中心索引，返回 -1
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        PivotIndex pivotFinder = new PivotIndex();
+        int[] nums = {1, 7, 3, 6, 5, 6};
+        int pivot = pivotFinder.pivotIndex(nums);
+        System.out.println("中心索引：" + pivot);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class ValidMountainArray {
+
+    public boolean validMountainArray(int[] A) {
+        int n = A.length;
+        int i = 0;
+
+        // 向上爬升
+        while (i < n - 1 && A[i] < A[i + 1]) {
+            i++;
+        }
+
+        // 检查是否达到山峰
+        if (i == 0 || i == n - 1) {
+            return false;
+        }
+
+        // 向下降
+        while (i < n - 1 && A[i] > A[i + 1]) {
+            i++;
+        }
+
+        // 检查是否到达数组末尾
+        return i == n - 1;
+    }
+
+    public static void main(String[] args) {
+        ValidMountainArray mountainValidator = new ValidMountainArray();
+        int[] A1 = {2, 1};
+        boolean result1 = mountainValidator.validMountainArray(A1);
+        System.out.println("结果1：" + result1);
+
+        int[] A2 = {3, 5, 5};
+        boolean result2 = mountainValidator.validMountainArray(A2);
+        System.out.println("结果2：" + result2);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class ThirdMax {
+
+    public int thirdMax(int[] nums) {
+        long max = Long.MIN_VALUE;        // 当前最大的数
+        long secondMax = Long.MIN_VALUE;  // 当前第二大的数
+        long thirdMax = Long.MIN_VALUE;   // 当前第三大的数
+
+        // 遍历数组
+        for (int num : nums) {
+            // 更新最大、第二大和第三大的数
+            if (num > max) {
+                thirdMax = secondMax;
+                secondMax = max;
+                max = num;
+            } else if (num > secondMax && num < max) {
+                thirdMax = secondMax;
+                secondMax = num;
+            } else if (num > thirdMax && num < secondMax) {
+                thirdMax = num;
+            }
+        }
+
+        // 如果 thirdMax 仍然等于 Long.MIN_VALUE，说明数组中不存在第三大的数，返回最大的数；否则，返回第三大的数。
+        return (thirdMax == Long.MIN_VALUE) ? (int) max : (int) thirdMax;
+    }
+
+    public static void main(String[] args) {
+        ThirdMax thirdMaxFinder = new ThirdMax();
+        int[] nums = {3, 2, 1};
+        int result = thirdMaxFinder.thirdMax(nums);
+        System.out.println("第三大的数：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class MajorityElement {
+
+    public int majorityElement(int[] nums) {
+        int majority = nums[0];  // 假设第一个元素为众数
+        int count = 1;           // 初始计数器为1
+
+        // 遍历数组
+        for (int i = 1; i < nums.length; i++) {
+            // 当计数器为0时，更新众数
+            if (count == 0) {
+                majority = nums[i];
+                count = 1;
+            } else if (nums[i] == majority) {
+                // 当当前元素等于众数时，计数器加1
+                count++;
+            } else {
+                // 当当前元素不等于众数时，计数器减1
+                count--;
+            }
+        }
+
+        return majority;
+    }
+
+    public static void main(String[] args) {
+        MajorityElement majorityElementFinder = new MajorityElement();
+        int[] nums = {3, 3, 4, 2, 2, 2, 2};
+        int result = majorityElementFinder.majorityElement(nums);
+        System.out.println("多数元素：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class ContainsDuplicateII {
+
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+
+        // 遍历数组
+        for (int i = 0; i < nums.length; i++) {
+            // 在滑动窗口中查找是否有重复元素
+            if (set.contains(nums[i])) {
+                return true;
+            }
+
+            // 将元素加入滑动窗口
+            set.add(nums[i]);
+
+            // 维护滑动窗口的大小，保证不超过 k
+            if (set.size() > k) {
+                set.remove(nums[i - k]);
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        ContainsDuplicateII duplicateFinder = new ContainsDuplicateII();
+        int[] nums = {1, 2, 3, 1};
+        int k = 3;
+        boolean result = duplicateFinder.containsNearbyDuplicate(nums, k);
+        System.out.println("存在重复元素（差的绝对值最大为 " + k + "）：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Arrays;
+
+public class ShortestUnsortedSubarray {
+
+    public int findUnsortedSubarray(int[] nums) {
+        int[] sortedArray = Arrays.copyOf(nums, nums.length);
+        Arrays.sort(sortedArray);
+
+        // 找到排序后数组和原数组不同的位置
+        int start = 0;
+        while (start < nums.length && nums[start] == sortedArray[start]) {
+            start++;
+        }
+
+        int end = nums.length - 1;
+        while (end > start && nums[end] == sortedArray[end]) {
+            end--;
+        }
+
+        // 返回子数组的长度
+        return end - start + 1;
+    }
+
+    public static void main(String[] args) {
+        ShortestUnsortedSubarray unsortedSubarrayFinder = new ShortestUnsortedSubarray();
+        int[] nums = {2, 6, 4, 8, 10, 9, 15};
+        int result = unsortedSubarrayFinder.findUnsortedSubarray(nums);
+        System.out.println("最短无序连续子数组的长度：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class FindDuplicates {
+
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+
+        // 遍历数组
+        for (int i = 0; i < nums.length; i++) {
+            // 将对应位置上的元素变为负数
+            int index = Math.abs(nums[i]) - 1;
+            if (nums[index] < 0) {
+                result.add(index + 1);
+            } else {
+                nums[index] = -nums[index];
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        FindDuplicates findDuplicates = new FindDuplicates();
+        int[] nums = {4, 3, 2, 7, 8, 2, 1};
+        List<Integer> result = findDuplicates.findDuplicates(nums);
+        System.out.println("数组中重复的数据：" + result);
+    }
+}
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Arrays;
+
+public class ArrayPartitionI {
+
+    // 计算分割数组得到的最大和
+    public int arrayPairSum(int[] nums) {
+        // 将数组排序
+        Arrays.sort(nums);
+
+        int sum = 0;
+
+        // 取每对中较小值的和
+        for (int i = 0; i < nums.length; i += 2) {
+            sum += nums[i];
+        }
+
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        ArrayPartitionI arrayPartition = new ArrayPartitionI();
+        int[] nums = {1, 4, 3, 2};
+        
+        // 调用方法计算结果
+        int result = arrayPartition.arrayPairSum(nums);
+        
+        // 输出结果
+        System.out.println("分割数组得到的最大和：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class MaxSubArray {
+
+    // 计算最大子序和
+    public int maxSubArray(int[] nums) {
+        // 初始化当前位置的最大子序和和全局最大子序和
+        int currentMax = nums[0];
+        int globalMax = nums[0];
+
+        // 遍历数组
+        for (int i = 1; i < nums.length; i++) {
+            // 更新当前位置的最大子序和
+            currentMax = Math.max(nums[i], currentMax + nums[i]);
+            
+            // 更新全局最大子序和
+            globalMax = Math.max(globalMax, currentMax);
+        }
+
+        return globalMax;
+    }
+
+    public static void main(String[] args) {
+        MaxSubArray maxSubArrayFinder = new MaxSubArray();
+        int[] nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        
+        // 调用方法计算结果
+        int result = maxSubArrayFinder.maxSubArray(nums);
+        
+        // 输出结果
+        System.out.println("最大子序和：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class ProductExceptSelf {
+
+    // 计算除自身以外数组的乘积
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] leftProduct = new int[n];  // 保存每个元素左侧的乘积
+        int[] rightProduct = new int[n];  // 保存每个元素右侧的乘积
+        int[] result = new int[n];  // 最终结果数组
+
+        // 初始化左侧乘积数组的第一个元素为 1
+        leftProduct[0] = 1;
+
+        // 计算左侧乘积数组
+        for (int i = 1; i < n; i++) {
+            leftProduct[i] = leftProduct[i - 1] * nums[i - 1];
+        }
+
+        // 初始化右侧乘积数组的最后一个元素为 1
+        rightProduct[n - 1] = 1;
+
+        // 计算右侧乘积数组
+        for (int i = n - 2; i >= 0; i--) {
+            rightProduct[i] = rightProduct[i + 1] * nums[i + 1];
+        }
+
+        // 计算最终结果数组
+        for (int i = 0; i < n; i++) {
+            result[i] = leftProduct[i] * rightProduct[i];
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        ProductExceptSelf productExceptSelfCalculator = new ProductExceptSelf();
+        int[] nums = {1, 2, 3, 4};
+        
+        // 调用方法计算结果
+        int[] result = productExceptSelfCalculator.productExceptSelf(nums);
+        
+        // 输出结果
+        System.out.println("除自身以外数组的乘积：" + Arrays.toString(result));
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class MaxConsecutiveOnes {
+
+    // 计算最大连续1的个数
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int maxCount = 0;  // 保存最大连续1的个数
+        int currentCount = 0;  // 保存当前连续1的个数
+
+        // 遍历数组
+        for (int num : nums) {
+            // 如果当前元素为1，增加当前连续1的个数
+            if (num == 1) {
+                currentCount++;
+            } else {
+                // 如果当前元素为0，更新最大连续1的个数，并重置当前连续1的个数为0
+                maxCount = Math.max(maxCount, currentCount);
+                currentCount = 0;
+            }
+        }
+
+        // 防止最大连续1的个数在数组末尾
+        return Math.max(maxCount, currentCount);
+    }
+
+    public static void main(String[] args) {
+        MaxConsecutiveOnes maxConsecutiveOnesFinder = new MaxConsecutiveOnes();
+        int[] nums = {1, 1, 0, 1, 1, 1, 0, 1, 1};
+        
+        // 调用方法计算结果
+        int result = maxConsecutiveOnesFinder.findMaxConsecutiveOnes(nums);
+        
+        // 输出结果
+        System.out.println("最大连续1的个数：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class FindMaxElement {
+
+    // 找出数组中的最大元素
+    public int findMax(int[] nums) {
+        int maxElement = Integer.MIN_VALUE;  // 保存当前的最大值
+
+        // 遍历数组
+        for (int num : nums) {
+            // 更新最大值
+            maxElement = Math.max(maxElement, num);
+        }
+
+        return maxElement;
+    }
+
+    public static void main(String[] args) {
+        FindMaxElement findMaxElement = new FindMaxElement();
+        int[] nums = {3, 1, 7, 9, 5};
+        
+        // 调用方法计算结果
+        int result = findMaxElement.findMax(nums);
+        
+        // 输出结果
+        System.out.println("数组中的最大元素：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Arrays;
+
+public class HeightChecker {
+
+    // 计算最小移动次数
+    public int heightChecker(int[] heights) {
+        int[] sortedHeights = Arrays.copyOf(heights, heights.length);  // 复制原数组并排序
+        Arrays.sort(sortedHeights);  // 排序新数组
+
+        int moves = 0;  // 记录移动次数
+
+        // 比较排序前后的元素
+        for (int i = 0; i < heights.length; i++) {
+            if (heights[i] != sortedHeights[i]) {
+                moves++;
+            }
+        }
+
+        return moves;
+    }
+
+    public static void main(String[] args) {
+        HeightChecker heightChecker = new HeightChecker();
+        int[] heights = {1, 1, 4, 2, 1, 3};
+        
+        // 调用方法计算结果
+        int result = heightChecker.heightChecker(heights);
+        
+        // 输出结果
+        System.out.println("最小移动次数：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Arrays;
+
+public class SortedSquares {
+
+    // 计算有序数组的平方
+    public int[] sortedSquares(int[] arr) {
+        // 计算每个元素的平方
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = arr[i] * arr[i];
+        }
+
+        // 对平方后的数组进行排序
+        Arrays.sort(arr);
+
+        return A;
+    }
+
+    public static void main(String[] args) {
+        SortedSquares sortedSquares = new SortedSquares();
+        int[] inputArray = {-4, -1, 0, 3, 10};
+        
+        // 调用方法计算结果
+        int[] result = sortedSquares.sortedSquares(inputArray);
+        
+        // 输出结果
+        System.out.println("有序数组的平方：" + Arrays.toString(result));
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Arrays;
+
+public class SortArrayByParity {
+
+    // 按奇偶排序数组
+    public static int[] sortArrayByParity(int[] A) {
+        // 使用 Arrays.sort 进行排序，排序规则为偶数在前，奇数在后
+        Arrays.sort(A, (a, b) -> Integer.compare(a % 2, b % 2));
+        return A;
+    }
+
+    public static void main(String[] args) {
+        int[] inputArray = {3, 1, 2, 4};
+        
+        // 调用方法计算结果
+        int[] result = sortArrayByParity(inputArray);
+        
+        // 输出结果
+        System.out.println("按奇偶排序数组：" + Arrays.toString(result));
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.HashSet;
+
+public class CheckIfExist {
+
+    // 检查整数及其两倍数是否存在
+    public boolean checkIfExist(int[] arr) {
+        HashSet<Integer> set = new HashSet<>();
+
+        // 遍历数组
+        for (int num : arr) {
+            // 如果存在 num 的两倍数或 num 的一半数，返回 true
+            if (set.contains(num * 2) || (num % 2 == 0 && set.contains(num / 2))) {
+                return true;
+            }
+
+            // 将当前元素加入 HashSet
+            set.add(num);
+        }
+
+        // 遍历结束，未找到满足条件的索引，返回 false
+        return false;
+    }
+
+    public static void main(String[] args) {
+        CheckIfExist checkIfExist = new CheckIfExist();
+        int[] inputArray = {10, 2, 5, 3};
+        
+        // 调用方法计算结果
+        boolean result = checkIfExist.checkIfExist(inputArray);
+        
+        // 输出结果
+        System.out.println("是否存在整数及其两倍数：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Arrays;
+
+public class ReplaceWithRightMax {
+
+    // 将数组中的元素替换为右侧最大元素
+    public int[] replaceElements(int[] arr) {
+        int n = arr.length;
+        int maxRight = -1;
+
+        // 从右向左遍历数组
+        for (int i = n - 1; i >= 0; i--) {
+            // 记录右侧最大元素
+            int currentElement = arr[i];
+            arr[i] = maxRight;
+            maxRight = Math.max(maxRight, currentElement);
+        }
+
+        return arr;
+    }
+
+    public static void main(String[] args) {
+        ReplaceWithRightMax replaceWithRightMax = new ReplaceWithRightMax();
+        int[] inputArray = {17, 18, 5, 4, 6, 1};
+        
+        // 调用方法计算结果
+        int[] result = replaceWithRightMax.replaceElements(inputArray);
+        
+        // 输出结果
+        System.out.println("替换为右侧最大元素后的数组：" + Arrays.toString(result));
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Arrays;
+
+public class CountSmaller {
+
+    // 树状数组（Binary Indexed Tree）的实现
+    static class BinaryIndexedTree {
+        int[] BIT;
+
+        // 构造函数，初始化 BIT 数组
+        public BinaryIndexedTree(int size) {
+            this.BIT = new int[size + 1];
+        }
+
+        // 更新 BIT 中指定索引的值
+        public void update(int index, int value) {
+            while (index < BIT.length) {
+                BIT[index] += value;
+                index += index & -index;
+            }
+        }
+
+        // 查询 BIT 中指定索引的前缀和
+        public int query(int index) {
+            int sum = 0;
+            while (index > 0) {
+                sum += BIT[index];
+                index -= index & -index;
+            }
+            return sum;
+        }
+    }
+
+    // 计算右边比当前元素小的元素的数量
+    public int[] countSmaller(int[] nums) {
+        // 复制数组并排序
+        int[] sortedNums = Arrays.copyOf(nums, nums.length);
+        Arrays.sort(sortedNums);
+
+        // 创建树状数组，数组长度为去重后的元素个数
+        BinaryIndexedTree bit = new BinaryIndexedTree(nums.length);
+        int[] result = new int[nums.length];
+
+        // 遍历原数组，从右向左计算比当前元素小的右侧元素的数量
+        for (int i = nums.length - 1; i >= 0; i--) {
+            // 在排序后的数组中找到当前元素的索引
+            int index = Arrays.binarySearch(sortedNums, nums[i]) + 1;
+
+            // 查询树状数组中当前索引之前的前缀和，即比当前元素小的右侧元素的数量
+            result[i] = bit.query(index - 1);
+
+            // 更新树状数组中当前索引的值，表示当前元素已经被考虑过
+            bit.update(index, 1);
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        CountSmaller countSmaller = new CountSmaller();
+        int[] inputArray = {5, 2, 6, 1};
+
+        // 调用方法计算结果
+        int[] result = countSmaller.countSmaller(inputArray);
+
+        // 输出结果
+        System.out.println("右边比当前元素小的元素的数量：" + Arrays.toString(result));
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Arrays;
+
+public class MinMoves2 {
+
+    // 计算最小移动次数使数组元素相等
+    public int minMoves2(int[] nums) {
+        Arrays.sort(nums);  // 将数组排序
+        int median = nums[nums.length / 2];  // 找到中位数
+
+        int moves = 0;
+        for (int num : nums) {
+            moves += Math.abs(num - median);  // 计算每个元素与中位数的差值之和
+        }
+
+        return moves;
+    }
+
+    public static void main(String[] args) {
+        MinMoves2 minMoves2 = new MinMoves2();
+        int[] inputArray = {1, 2, 3};
+
+        // 调用方法计算结果
+        int moves = minMoves2.minMoves2(inputArray);
+
+        // 输出结果
+        System.out.println("最小移动次数使数组元素相等：" + moves);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.PriorityQueue;
+
+public class FindKthLargest {
+
+    // 找到数组中的第 k 个最大元素
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();  // 创建最小堆
+
+        for (int num : nums) {
+            minHeap.offer(num);  // 将元素加入堆
+
+            if (minHeap.size() > k) {
+                minHeap.poll();  // 移除堆顶元素，保持堆的大小为 k
+            }
+        }
+
+        return minHeap.peek();  // 返回堆顶元素即第 k 个最大元素
+    }
+
+    public static void main(String[] args) {
+        FindKthLargest findKthLargest = new FindKthLargest();
+        int[] inputArray = {3, 2, 1, 5, 6, 4};
+        int k = 2;
+
+        // 调用方法计算结果
+        int result = findKthLargest.findKthLargest(inputArray, k);
+
+        // 输出结果
+        System.out.println("数组中的第 " + k + " 个最大元素：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class MinSubArrayLen {
+
+    // 寻找长度最小的子数组
+    public int minSubArrayLen(int s, int[] nums) {
+        int left = 0;  // 左指针
+        int sum = 0;   // 当前窗口元素和
+        int minLength = Integer.MAX_VALUE;  // 初始化最小长度
+
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];  // 右指针扩大窗口
+
+            // 当窗口内元素和大于等于 s 时，移动左指针缩小窗口
+            while (sum >= s) {
+                minLength = Math.min(minLength, right - left + 1);  // 更新最小长度
+                sum -= nums[left];  // 移动左指针
+                left++;  // 缩小窗口
+            }
+        }
+
+        return minLength == Integer.MAX_VALUE ? 0 : minLength;  // 返回最小长度，若无符合条件的子数组返回 0
+    }
+
+    public static void main(String[] args) {
+        MinSubArrayLen minSubArrayLen = new MinSubArrayLen();
+        int s = 7;
+        int[] nums = {2, 3, 1, 2, 4, 3};
+
+        // 调用方法计算结果
+        int result = minSubArrayLen.minSubArrayLen(s, nums);
+
+        // 输出结果
+        System.out.println("长度最小的子数组长度：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+
+import java.util.Arrays;
+
+import java.util.List;
+
+public class MergeIntervals {
+
+
+    // 合并重叠的区间
+    public int[][] merge(int[][] intervals) {
+        if (intervals == null || intervals.length <= 1) {
+            return intervals;
+        }
+
+        // 按照区间的起始位置进行排序
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+        List<int[]> result = new ArrayList<>();
+        int[] currentInterval = intervals[0];
+
+        // 遍历排序后的区间集合，逐一合并重叠的区间
+        for (int i = 1; i < intervals.length; i++) {
+            if (currentInterval[1] >= intervals[i][0]) {
+                // 有重叠，合并区间
+                currentInterval[1] = Math.max(currentInterval[1], intervals[i][1]);
+            } else {
+                // 无重叠，添加当前区间到结果集
+                result.add(currentInterval);
+                // 更新当前区间为下一个区间
+                currentInterval = intervals[i];
+            }
+        }
+
+        // 添加最后一个区间到结果集
+        result.add(currentInterval);
+
+        // 将结果集转换为二维数组
+        return result.toArray(new int[result.size()][]);
+    }
+
+    public static void main(String[] args) {
+        MergeIntervals mergeIntervals = new MergeIntervals();
+        int[][] intervals = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+
+        // 调用方法计算结果
+        int[][] result = mergeIntervals.merge(intervals);
+
+        // 输出结果
+        System.out.println(Arrays.deepToString(result));
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class WordBreak {
+
+    // 单词拆分
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        // 将单词列表转为 Set，方便快速查找是否为字典中的单词
+        Set<String> wordSet = new HashSet<>(wordDict);
+        int n = s.length();
+
+        // dp[i] 表示 s 的前 i 个字符是否可以拆分成字典中的单词
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true;
+
+        // 动态规划，判断字符串中每个位置是否可以构成字典中的单词
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && wordSet.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        // 回溯生成所有可能的句子
+        List<String> result = new ArrayList<>();
+        if (dp[n]) {
+            backtrack(s, wordSet, 0, new StringBuilder(), result);
+        }
+        return result;
+    }
+
+    // 回溯算法生成所有可能的句子
+    private void backtrack(String s, Set<String> wordSet, int start, StringBuilder current, List<String> result) {
+        if (start == s.length()) {
+            result.add(current.toString().trim());
+            return;
+        }
+
+        for (int end = start + 1; end <= s.length(); end++) {
+            String word = s.substring(start, end);
+            if (wordSet.contains(word)) {
+                int originalLength = current.length();
+                current.append(word).append(" ");
+                backtrack(s, wordSet, end, current, result);
+                current.setLength(originalLength); // 回溯
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        WordBreak wordBreak = new WordBreak();
+        String s = "catsanddog";
+        List<String> wordDict = List.of("cat", "cats", "and", "sand", "dog");
+
+        // 调用方法计算结果
+        List<String> result = wordBreak.wordBreak(s, wordDict);
+
+        // 输出结果
+        System.out.println(result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.Stack;
+
+public class MinStack {
+
+    // 主栈用于存储元素
+    private Stack<Integer> stack;
+
+    // 辅助栈用于存储当前最小元素
+    private Stack<Integer> minStack;
+
+    // 初始化栈
+    public MinStack() {
+        stack = new Stack<>();
+        minStack = new Stack<>();
+    }
+
+    // 将元素 x 推入栈中
+    public void push(int x) {
+        // 将元素推入主栈
+        stack.push(x);
+        // 如果辅助栈为空或者 x 小于等于当前最小元素，则将 x 推入辅助栈
+        if (minStack.isEmpty() || x <= minStack.peek()) {
+            minStack.push(x);
+        }
+    }
+
+    // 删除栈顶的元素
+    public void pop() {
+        // 如果主栈和辅助栈不为空，并且主栈的栈顶元素等于当前最小元素，则也将辅助栈的栈顶元素弹出
+        if (!stack.isEmpty() && !minStack.isEmpty() && stack.peek().equals(minStack.peek())) {
+            minStack.pop();
+        }
+        // 弹出主栈的栈顶元素
+        if (!stack.isEmpty()) {
+            stack.pop();
+        }
+    }
+
+    // 获取栈顶元素
+    public int top() {
+        if (!stack.isEmpty()) {
+            return stack.peek();
+        }
+        throw new RuntimeException("Stack is empty");
+    }
+
+    // 检索栈中的最小元素
+    public int getMin() {
+        if (!minStack.isEmpty()) {
+            return minStack.peek();
+        }
+        throw new RuntimeException("Stack is empty");
+    }
+
+    public static void main(String[] args) {
+        MinStack minStack = new MinStack();
+        minStack.push(-2);
+        minStack.push(0);
+        minStack.push(-3);
+
+        // 返回 -3，因为当前栈中的元素是 [-2, 0, -3]，最小元素是 -3
+        System.out.println(minStack.getMin());
+
+        minStack.pop();
+
+        // 返回 0，因为当前栈中的元素是 [-2, 0]，栈顶元素是 0
+        System.out.println(minStack.top());
+
+        // 返回 -2，因为当前栈中的元素是 [-2, 0]，最小元素是 -2
+        System.out.println(minStack.getMin());
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class FindDuplicate {
+
+    // 寻找重复数的方法
+    public int findDuplicate(int[] nums) {
+        // 初始化左右边界，左边界为1，右边界为n
+        int left = 1;
+        int right = nums.length - 1;
+
+        // 进入二分查找循环
+        while (left < right) {
+            // 计算中间值mid
+            int mid = left + (right - left) / 2;
+
+            // 统计小于等于mid的元素个数count
+            int count = countElements(nums, mid);
+
+            // 根据count的大小更新左右边界
+            if (count > mid) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        // 循环结束，返回左边界即为重复的元素
+        return left;
+    }
+
+    // 统计数组中小于等于target的元素个数
+    private int countElements(int[] nums, int target) {
+        int count = 0;
+        for (int num : nums) {
+            if (num <= target) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        FindDuplicate finder = new FindDuplicate();
+        int[] nums = {1, 3, 4, 2, 2};
+        
+        // 调用方法找出重复数
+        int result = finder.findDuplicate(nums);
+        
+        // 输出结果
+        System.out.println("重复的数字：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class FirstMissingPositive {
+
+    // 寻找缺失的第一个正数的方法
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+
+        // 第一次遍历，将每个元素放到正确的位置上
+        for (int i = 0; i < n; i++) {
+            while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
+                // 将正整数 i 放到索引 i-1 的位置上
+                swap(nums, i, nums[i] - 1);
+            }
+        }
+
+        // 第二次遍历，找到第一个不在正确位置上的正整数
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+
+        // 如果数组中都在正确位置上，则返回 n + 1
+        return n + 1;
+    }
+
+    // 交换数组中两个位置上的元素
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        FirstMissingPositive finder = new FirstMissingPositive();
+        int[] nums = {3, 4, -1, 1};
+        
+        // 调用方法找出缺失的第一个正数
+        int result = finder.firstMissingPositive(nums);
+        
+        // 输出结果
+        System.out.println("缺失的第一个正数：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class SpiralMatrix {
+
+    // 螺旋矩阵的方法
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> result = new ArrayList<>();
+
+        // 获取矩阵的行数和列数
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        // 初始化四个边界
+        int top = 0;          // 上边界
+        int bottom = m - 1;   // 下边界
+        int left = 0;         // 左边界
+        int right = n - 1;    // 右边界
+
+        // 循环按照顺时针顺序遍历矩阵的四个边界
+        while (top <= bottom && left <= right) {
+            // 遍历上边界
+            for (int i = left; i <= right; i++) {
+                result.add(matrix[top][i]);
+            }
+            top++;
+
+            // 遍历右边界
+            for (int i = top; i <= bottom; i++) {
+                result.add(matrix[i][right]);
+            }
+            right--;
+
+            // 遍历下边界
+            if (top <= bottom) {
+                for (int i = right; i >= left; i--) {
+                    result.add(matrix[bottom][i]);
+                }
+                bottom--;
+            }
+
+            // 遍历左边界
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    result.add(matrix[i][left]);
+                }
+                left++;
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        SpiralMatrix spiralMatrix = new SpiralMatrix();
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        
+        // 调用方法获取螺旋顺序的矩阵元素
+        List<Integer> result = spiralMatrix.spiralOrder(matrix);
+        
+        // 输出结果
+        System.out.println("螺旋矩阵的顺序遍历：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class NextPermutation {
+
+    // 下一个排列的方法
+    public void nextPermutation(int[] nums) {
+        int n = nums.length;
+
+        // Step 1: 从右到左找到第一个破坏升序的数字，记为 i
+        int i = n - 2;
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+
+        // Step 2: 从右到左找到第一个大于 nums[i] 的数字，记为 j
+        if (i >= 0) {
+            int j = n - 1;
+            while (j >= 0 && nums[j] <= nums[i]) {
+                j--;
+            }
+
+            // Step 3: 交换 nums[i] 和 nums[j]
+            swap(nums, i, j);
+        }
+
+        // Step 4: 将从 i+1 到末尾的部分反转，得到下一个排列
+        reverse(nums, i + 1, n - 1);
+    }
+
+    // 交换数组中两个位置上的元素
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    // 反转数组中指定范围的元素
+    private void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            swap(nums, start, end);
+            start++;
+            end--;
+        }
+    }
+
+    public static void main(String[] args) {
+        NextPermutation nextPermutation = new NextPermutation();
+        int[] nums = {1, 2, 3};
+
+        // 调用方法获取下一个排列
+        nextPermutation.nextPermutation(nums);
+
+        // 输出结果
+        System.out.print("下一个排列：[");
+        for (int i = 0; i < nums.length; i++) {
+            System.out.print(nums[i]);
+            if (i < nums.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class SearchInsertPosition {
+
+    // 搜索插入位置的方法
+    public int searchInsert(int[] nums, int target) {
+        int left = 0;             // 左边界
+        int right = nums.length - 1;  // 右边界
+
+        // 二分查找循环
+        while (left <= right) {
+            // 计算中间值 mid
+            int mid = left + (right - left) / 2;
+
+            // 如果中间值等于目标值，直接返回 mid
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            // 如果中间值小于目标值，更新左边界为 mid + 1
+            else if (nums[mid] < target) {
+                left = mid + 1;
+            }
+
+            // 目标值在左半部分，更新右边界为 mid - 1
+            else {
+                right = mid - 1;
+            }
+        }
+
+        // 当左边界大于右边界时，循环结束，返回左边界
+        return left;
+    }
+
+    public static void main(String[] args) {
+        SearchInsertPosition searchInsertPosition = new SearchInsertPosition();
+        int[] nums = {1, 3, 5, 6};
+        int target = 5;
+
+        // 调用方法获取插入位置
+        int result = searchInsertPosition.searchInsert(nums, target);
+
+        // 输出结果
+        System.out.println("插入位置：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class IsValidSudoku {
+
+    // 判断数独是否有效的方法
+    public boolean isValidSudoku(char[][] board) {
+        // 分别表示每行、每列、每个九宫格的哈希表
+        boolean[][] row = new boolean[9][9];
+        boolean[][] col = new boolean[9][9];
+        boolean[][] box = new boolean[9][9];
+
+        // 遍历数独的每个位置
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char currentChar = board[i][j];
+
+                // 如果当前位置不是数字，直接跳过
+                if (currentChar == '.') {
+                    continue;
+                }
+
+                // 将字符转换为数字
+                int num = currentChar - '1';
+
+                // 判断当前数字是否在当前行、当前列、当前九宫格内已经出现过
+                if (row[i][num] || col[j][num] || box[(i / 3) * 3 + j / 3][num]) {
+                    return false;
+                }
+
+                // 如果没有出现过，将当前数字加入相应的哈希表中
+                row[i][num] = true;
+                col[j][num] = true;
+                box[(i / 3) * 3 + j / 3][num] = true;
+            }
+        }
+
+        // 遍历结束后，返回 true，表示数独有效
+        return true;
+    }
+
+    public static void main(String[] args) {
+        IsValidSudoku isValidSudoku = new IsValidSudoku();
+        char[][] board = {
+                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+        };
+
+        // 调用方法判断数独是否有效
+        boolean result = isValidSudoku.isValidSudoku(board);
+
+        // 输出结果
+        System.out.println("数独是否有效：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class SolveSudoku {
+
+    // 解数独的方法
+    public void solveSudoku(char[][] board) {
+        // 调用递归方法，从第一个空格开始填充
+        solve(board);
+    }
+
+    // 递归填充数独的方法
+    private boolean solve(char[][] board) {
+        // 遍历数独的每个位置
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                // 如果当前位置是空格
+                if (board[i][j] == '.') {
+                    // 尝试填充数字 1-9
+                    for (char c = '1'; c <= '9'; c++) {
+                        // 判断当前填充是否合法
+                        if (isValid(board, i, j, c)) {
+                            // 填充数字
+                            board[i][j] = c;
+
+                            // 递归尝试下一个空格
+                            if (solve(board)) {
+                                return true;
+                            }
+
+                            // 如果递归失败，回溯到上一个状态，尝试其他数字
+                            board[i][j] = '.';
+                        }
+                    }
+                    
+                    // 所有数字尝试完毕，仍未找到合法解，返回 false
+                    return false;
+                }
+            }
+        }
+
+        // 数独填充完成，返回 true
+        return true;
+    }
+
+    // 判断当前填充是否合法的方法
+    private boolean isValid(char[][] board, int row, int col, char num) {
+        // 判断当前数字在当前行是否出现过
+        for (int i = 0; i < 9; i++) {
+            if (board[row][i] == num) {
+                return false;
+            }
+        }
+
+        // 判断当前数字在当前列是否出现过
+        for (int i = 0; i < 9; i++) {
+            if (board[i][col] == num) {
+                return false;
+            }
+        }
+
+        // 判断当前数字在当前九宫格是否出现过
+        int startRow = (row / 3) * 3;
+        int startCol = (col / 3) * 3;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[startRow + i][startCol + j] == num) {
+                    return false;
+                }
+            }
+        }
+
+        // 当前填充合法
+        return true;
+    }
+
+    public static void main(String[] args) {
+        SolveSudoku solveSudoku = new SolveSudoku();
+        char[][] board = {
+                // 数独数组
+        };
+
+        // 调用方法解数独
+        solveSudoku.solveSudoku(board);
+
+        // 输出结果
+        System.out.println("解数独后的结果：");
+        for (char[] row : board) {
+            System.out.println(Arrays.toString(row));
+        }
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class CountAndSay {
+
+    // 报数序列的方法
+    public String countAndSay(int n) {
+        // 初始值为 "1"
+        String result = "1";
+
+        // 从第二项开始计算报数序列
+        for (int i = 2; i <= n; i++) {
+            result = getNext(result);
+        }
+
+        // 返回第 n 项的报数序列
+        return result;
+    }
+
+    // 计算下一个报数序列的方法
+    private String getNext(String s) {
+        // 使用 StringBuilder 存储报数结果
+        StringBuilder result = new StringBuilder();
+
+        // 初始化计数器和当前数字
+        int count = 1;
+        char currentDigit = s.charAt(0);
+
+        // 遍历前一个数的每一位
+        for (int i = 1; i < s.length(); i++) {
+            // 如果当前数字与前一个数字相同，增加计数器
+            if (s.charAt(i) == currentDigit) {
+                count++;
+            } else {
+                // 否则，拼接计数器和当前数字，重置计数器和当前数字
+                result.append(count).append(currentDigit);
+                count = 1;
+                currentDigit = s.charAt(i);
+            }
+        }
+
+        // 处理最后一组相同数字
+        result.append(count).append(currentDigit);
+
+        // 返回报数结果
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        CountAndSay countAndSay = new CountAndSay();
+        int n = 4;
+
+        // 调用方法计算结果
+        String result = countAndSay.countAndSay(n);
+
+        // 输出结果
+        System.out.println("第 " + n + " 项的报数序列：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class CombinationSum {
+
+    // 组合总和的方法
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        // 初始化结果集
+        List<List<Integer>> result = new ArrayList<>();
+
+        // 开始递归搜索组合
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
+
+        // 返回结果集
+        return result;
+    }
+
+    // 回溯搜索组合的方法
+    private void backtrack(int[] candidates, int target, int start, List<Integer> current, List<List<Integer>> result) {
+        // 终止条件：目标值为 0，将当前组合加入结果集
+        if (target == 0) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        // 递归搜索组合
+        for (int i = start; i < candidates.length; i++) {
+            // 剪枝：如果目标值已经小于当前数字，就没有必要继续搜索了
+            if (target < candidates[i]) {
+                continue;
+            }
+
+            // 将当前数字加入组合
+            current.add(candidates[i]);
+
+            // 继续递归搜索，更新目标值和搜索起点
+            backtrack(candidates, target - candidates[i], i, current, result);
+
+            // 回溯：将当前数字从组合中移除，进行下一轮尝试
+            current.remove(current.size() - 1);
+        }
+    }
+
+    public static void main(String[] args) {
+        CombinationSum combinationSum = new CombinationSum();
+        int[] candidates = {2, 3, 6, 7};
+        int target = 7;
+
+        // 调用方法计算结果
+        List<List<Integer>> result = combinationSum.combinationSum(candidates, target);
+
+        // 输出结果
+        System.out.println("组合总和为 " + target + " 的组合集合：");
+        for (List<Integer> combination : result) {
+            System.out.println(combination);
+        }
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class CombinationSum2 {
+
+    // 组合总和的方法
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        // 初始化结果集
+        List<List<Integer>> result = new ArrayList<>();
+
+        // 排序数组，为了后续去重
+        Arrays.sort(candidates);
+
+        // 开始递归搜索组合
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
+
+        // 返回结果集
+        return result;
+    }
+
+    // 回溯搜索组合的方法
+    private void backtrack(int[] candidates, int target, int start, List<Integer> current, List<List<Integer>> result) {
+        // 终止条件：目标值为 0，将当前组合加入结果集
+        if (target == 0) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        // 递归搜索组合
+        for (int i = start; i < candidates.length; i++) {
+            // 剪枝：如果目标值已经小于当前数字，就没有必要继续搜索了
+            if (target < candidates[i]) {
+                continue;
+            }
+
+            // 去重：对于相同的数字，只考虑第一次出现的情况，跳过后续相同数字的处理
+            if (i > start && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+
+            // 将当前数字加入组合
+            current.add(candidates[i]);
+
+            // 继续递归搜索，更新目标值和搜索起点
+            backtrack(candidates, target - candidates[i], i + 1, current, result);
+
+            // 回溯：将当前数字从组合中移除，进行下一轮尝试
+            current.remove(current.size() - 1);
+        }
+    }
+
+    public static void main(String[] args) {
+        CombinationSum2 combinationSum2 = new CombinationSum2();
+        int[] candidates = {10, 1, 2, 7, 6, 1, 5};
+        int target = 8;
+
+        // 调用方法计算结果
+        List<List<Integer>> result = combinationSum2.combinationSum2(candidates, target);
+
+        // 输出结果
+        System.out.println("组合总和为 " + target + " 的组合集合：");
+        for (List<Integer> combination : result) {
+            System.out.println(combination);
+        }
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class FirstMissingPositive {
+
+    // 找出未排序数组中缺失的第一个正整数
+    public int firstMissingPositive(int[] nums) {
+        // 遍历数组，进行桶排序
+        for (int i = 0; i < nums.length; i++) {
+            // 将每个数字放到它应该在的位置上
+            while (nums[i] > 0 && nums[i] <= nums.length && nums[nums[i] - 1] != nums[i]) {
+                // 交换位置
+                swap(nums, i, nums[i] - 1);
+            }
+        }
+
+        // 找到第一个不符合条件的位置，即缺失的最小正整数
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+
+        // 如果数组是连续的，返回数组长度加 1
+        return nums.length + 1;
+    }
+
+    // 交换数组中两个位置的元素
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        FirstMissingPositive firstMissingPositive = new FirstMissingPositive();
+        int[] nums1 = {3, 4, -1, 1};
+        int[] nums2 = {1, 2, 0};
+
+        // 调用方法计算结果
+        int result1 = firstMissingPositive.firstMissingPositive(nums1);
+        int result2 = firstMissingPositive.firstMissingPositive(nums2);
+
+        // 输出结果
+        System.out.println("未排序数组中缺失的第一个正整数：" + result1);
+        System.out.println("未排序数组中缺失的第一个正整数：" + result2);
+    }
+}
+
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class TrappingRainWater {
+
+    // 计算接雨水的总量
+    public int trap(int[] height) {
+        int n = height.length;
+        if (n <= 2) {
+            return 0; // 如果柱子数量小于等于2，无法形成凹槽，接不到雨水
+        }
+
+        int[] leftMax = new int[n];  // 存储每个位置左侧的最大高度
+        int[] rightMax = new int[n]; // 存储每个位置右侧的最大高度
+
+        // 初始化第一个位置的左侧最大高度
+        leftMax[0] = height[0];
+
+        // 计算每个位置左侧的最大高度
+        for (int i = 1; i < n; i++) {
+            leftMax[i] = Math.max(leftMax[i - 1], height[i]);
+        }
+
+        // 初始化最后一个位置的右侧最大高度
+        rightMax[n - 1] = height[n - 1];
+
+        // 计算每个位置右侧的最大高度
+        for (int i = n - 2; i >= 0; i--) {
+            rightMax[i] = Math.max(rightMax[i + 1], height[i]);
+        }
+
+        int rainWater = 0; // 存储接雨水的总量
+
+        // 计算每个位置上方的雨水量
+        for (int i = 1; i < n - 1; i++) {
+            int minHeight = Math.min(leftMax[i - 1], rightMax[i + 1]); // 左右最大高度的较小值
+            int currentHeight = height[i]; // 当前位置高度
+
+            // 如果当前位置的高度小于左右最大高度的较小值，说明可以接到雨水
+            if (currentHeight < minHeight) {
+                rainWater += minHeight - currentHeight;
+            }
+        }
+
+        return rainWater;
+    }
+
+    public static void main(String[] args) {
+        TrappingRainWater trappingRainWater = new TrappingRainWater();
+        int[] heights = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+
+        // 调用方法计算结果
+        int result = trappingRainWater.trap(heights);
+
+        // 输出结果
+        System.out.println("接雨水的总量：" + result);
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class MultiplyStrings {
+
+    public String multiply(String num1, String num2) {
+        int m = num1.length(), n = num2.length();
+        int[] result = new int[m + n];
+
+        // 逐位相乘，按照进位规律相加
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                int product = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int sum = product + result[i + j + 1];
+                result[i + j + 1] = sum % 10;  // 当前位置
+                result[i + j] += sum / 10;     // 进位
+            }
+        }
+
+        // 构建最终结果的字符串形式
+        StringBuilder sb = new StringBuilder();
+        for (int digit : result) {
+            if (!(sb.length() == 0 && digit == 0)) {
+                sb.append(digit);
+            }
+        }
+
+        // 如果结果为空，说明两个数相乘得到的是 0
+        return sb.length() == 0 ? "0" : sb.toString();
+    }
+
+    public static void main(String[] args) {
+        MultiplyStrings solution = new MultiplyStrings();
+        String num1 = "123";
+        String num2 = "456";
+        System.out.println(solution.multiply(num1, num2));  // 输出 "56088"
+    }
+}
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class WildcardMatching {
+
+    public boolean isMatch(String s, String p) {
+        int m = s.length(), n = p.length();
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
+
+        for (int j = 1; j <= n; j++) {
+            if (p.charAt(j - 1) == '*') {
+                dp[0][j] = dp[0][j - 1];
+            }
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (p.charAt(j - 1) == s.charAt(i - 1) || p.charAt(j - 1) == '?') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (p.charAt(j - 1) == '*') {
+                    dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
+    public static void main(String[] args) {
+        WildcardMatching solution = new WildcardMatching();
+        String s1 = "adceb", p1 = "*a*b";
+        String s2 = "acdcb", p2 = "a*c?b";
+        System.out.println(solution.isMatch(s1, p1));  // 输出 true
+        System.out.println(solution.isMatch(s2, p2));  // 输出 false
+    }
+}
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class JumpGameII {
+
+    public int jump(int[] nums) {
+        int n = nums.length;
+        int jumps = 0;
+        int currEnd = 0;  // 当前能够达到的最远位置
+        int farthest = 0; // 当前的跳跃步数
+
+        for (int i = 0; i < n - 1; i++) {
+            farthest = Math.max(farthest, i + nums[i]);
+            if (i == currEnd) {
+                jumps++;
+                currEnd = farthest;
+            }
+        }
+
+        return jumps;
+    }
+
+    public static void main(String[] args) {
+        JumpGameII solution = new JumpGameII();
+        int[] nums = {2, 3, 1, 1, 4};
+        System.out.println(solution.jump(nums));  // 输出 2
+    }
+}
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Permutations {
+
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> current = new ArrayList<>();
+        // 标记数组中的数字是否被使用过
+        boolean[] used = new boolean[nums.length];
+        backtrack(nums, current, used, result);
+        return result;
+    }
+
+    private void backtrack(int[] nums, List<Integer> current, boolean[] used, List<List<Integer>> result) {
+        // 终止条件，找到一个全排列
+        if (current.size() == nums.length) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        // 从数组中选择未使用过的数字
+        for (int i = 0; i < nums.length; i++) {
+            // 如果数字已经被使用过，跳过
+            if (used[i]) {
+                continue;
+            }
+
+            // 将当前数字加入到当前组合中
+            current.add(nums[i]);
+            // 标记当前数字为已使用
+            used[i] = true;
+            // 继续递归调用，搜索下一个数字
+            backtrack(nums, current, used, result);
+            // 回溯，将当前数字从组合中移除，并标记为未使用
+            current.remove(current.size() - 1);
+            used[i] = false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Permutations permutations = new Permutations();
+        int[] nums = {1, 2, 3};
+        List<List<Integer>> result = permutations.permute(nums);
+        System.out.println(result);
+    }
+}
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class PermutationsII {
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> current = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+        Arrays.sort(nums);
+        backtrack(nums, used, current, result);
+        return result;
+    }
+
+    private void backtrack(int[] nums, boolean[] used, List<Integer> current, List<List<Integer>> result) {
+        if (current.size() == nums.length) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
+                continue;
+            }
+
+            current.add(nums[i]);
+            used[i] = true;
+            backtrack(nums, used, current, result);
+            current.remove(current.size() - 1);
+            used[i] = false;
+        }
+    }
+
+    public static void main(String[] args) {
+        PermutationsII solution = new PermutationsII();
+        int[] nums = {1, 1, 2};
+        List<List<Integer>> result = solution.permuteUnique(nums);
+        System.out.println(result);
+    }
+}
+```
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+public class RotateImage {
+
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+
+        // 矩阵转置
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+
+        // 反转每一行
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n / 2; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[i][n - 1 - j];
+                matrix[i][n - 1 - j] = temp;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        RotateImage solution = new RotateImage();
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        solution.rotate(matrix);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+**代码实现：**
+
+```java
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class GroupAnagrams {
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (String str : strs) {
+            int[] count = new int[26];
+            for (char c : str.toCharArray()) {
+                count[c - 'a']++;
+            }
+
+            StringBuilder key = new StringBuilder();
+            for (int i = 0; i < 26; i++) {
+                if (count[i] > 0) {
+                    key.append((char) ('a' + i)).append(count[i]);
+                }
+            }
+
+            String keyStr = key.toString();
+            if (!map.containsKey(keyStr)) {
+                map.put(keyStr, new ArrayList<>());
+            }
+            map.get(keyStr).add(str);
+        }
+
+        return new ArrayList<>(map.values());
+    }
+
+    public static void main(String[] args) {
+        GroupAnagrams solution = new GroupAnagrams();
+        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        List<List<String>> result = solution.groupAnagrams(strs);
+        System.out.println(result);
+    }
+}
+```
+
+
+
+
+
+
